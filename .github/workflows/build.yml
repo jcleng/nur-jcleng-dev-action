@@ -42,6 +42,10 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        repository: "https://jihulab.com/jcleng/nur-packages.git"
+        ref: "master"
+
     - name: Install nix
       uses: cachix/install-nix-action@v22
       with:
