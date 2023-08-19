@@ -21,7 +21,7 @@ jobs:
         # The repo name as used in
         # https://github.com/nix-community/NUR/blob/master/repos.json
         nurRepo:
-          - https://jihulab.com/jcleng/nur-packages.git
+          - jcleng-dev
         # Set this to cache your build results in cachix for faster builds
         # in CI and for everyone who uses your cache.
         #
@@ -40,11 +40,10 @@ jobs:
           - nixpkgs=channel:nixos-23.05
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        repository: "https://jihulab.com/jcleng/nur-packages.git"
-        ref: "master"
+    - name: clone jcleng/nur-packages master
+      run: |
+        git clone https://jihulab.com/jcleng/nur-packages.git nur-packages
+        mv -f nur-packages/* ./
 
     - name: Install nix
       uses: cachix/install-nix-action@v22
