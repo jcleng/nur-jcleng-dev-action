@@ -1,0 +1,42 @@
+name: "Build and populate cache arm"
+on:
+  workflow_dispatch:
+  schedule:
+    # rebuild everyday at 2:51
+    # TIP: Choose a random time here so not all repositories are build at once:
+    # https://www.random.org/clock-times/?num=1&earliest=01%3A00&latest=08%3A00&interval=5&format=html&rnd=new
+    - cron:  '51 2 * * *'
+jobs:
+  tests:
+    strategy:
+      matrix:
+        nixPath:
+          - nixpkgs=channel:nixos-unstable
+          - nixpkgs=channel:nixpkgs-unstable
+          - nixpkgs=channel:nixos-23.05
+    runs-on: ubuntu-latest
+    steps:
+    - name: clone jcleng/nur-packages master
+      run: |
+        git clone https://jihulab.com/jcleng/nur-packages.git nur-packages
+        mv -f nur-packages/* ./
+
+    - name: Setup Alpine Linux v3.15 for aarch64
+      uses: jirutka/setup-alpine@v1
+      with:
+        arch: aarch64
+        branch: v3.1
+
+    - name: Run script in arm
+      run: |
+        cat /etc/alpine-release
+        ls -la
+      shell: alpine.sh {0}
+
+    # - name: Install nix
+    #   uses: cachix/install-nix-action@v22
+    #   with:
+    #     nix_path: "${{ matrix.nixPath }}"
+    #     extra_nix_config: |
+    #       experimental-features = nix-command flakes
+    #       access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
