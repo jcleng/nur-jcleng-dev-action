@@ -48,19 +48,31 @@ jobs:
         cat /etc/alpine-release
       shell: alpine.sh --root {0}
 
-    - name: Install nix and Build
+    - name: Install nix
       run: |
         mkdir -p ~/.config/nix/
         echo "require-sigs = false">>~/.config/nix/nix.conf
         echo "experimental-features = nix-command flakes">>~/.config/nix/nix.conf
 
         bash <(curl -L https://nixos.org/nix/install)
+      shell: alpine.sh {0}
 
+    - name: channel update
+      run: |
+        export PATH=$PATH:~/.nix-profile/bin
         nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixpkgs-unstable nixpkgs
         nix-channel --list
         nix-channel --update
+      shell: alpine.sh {0}
+    - name: Install cachix
+      run: |
+        export PATH=$PATH:~/.nix-profile/bin
         nix-env -iA nixpkgs.cachix
         cachix use jcleng-dev
+      shell: alpine.sh {0}
+
+    - name: Build && push
+      run: |
+        export PATH=$PATH:~/.nix-profile/bin
         nix-build|cachix push jcleng-dev
         ls -lash
-      shell: alpine.sh {0}
