@@ -47,6 +47,9 @@ jobs:
         mkdir -p ~/.config/nix/
         echo "require-sigs = false">>~/.config/nix/nix.conf
         echo "experimental-features = nix-command flakes">>~/.config/nix/nix.conf
+
+        bash <(curl -L https://nixos.org/nix/install)
+
         nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixpkgs-unstable nixpkgs
         nix-channel --list
         nix-channel --update
