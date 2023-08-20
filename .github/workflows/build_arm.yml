@@ -73,7 +73,7 @@ jobs:
 
     - name: Build && push
       run: |
-        ls ~/.nix-profile/bin
         export PATH=$PATH:~/.nix-profile/bin
         nix-build|cachix push jcleng-dev
         ls -lash
+      shell: alpine.sh {0}
