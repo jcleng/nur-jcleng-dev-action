@@ -42,10 +42,16 @@ jobs:
         cat /etc/alpine-release
       shell: alpine.sh --root {0}
 
-    # - name: Install nix
-    #   uses: cachix/install-nix-action@v22
-    #   with:
-    #     nix_path: "${{ matrix.nixPath }}"
-    #     extra_nix_config: |
-    #       experimental-features = nix-command flakes
-    #       access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+    - name: Install nix and Build
+      run: |
+        mkdir -p ~/.config/nix/
+        echo "require-sigs = false">>~/.config/nix/nix.conf
+        echo "experimental-features = nix-command flakes">>~/.config/nix/nix.conf
+        nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixpkgs-unstable nixpkgs
+        nix-channel --list
+        nix-channel --update
+        nix-env -iA nixpkgs.cachix
+        cachix use jcleng-dev
+        nix-build|cachix push jcleng-dev
+        ls -lash
+      shell: alpine.sh {0}
