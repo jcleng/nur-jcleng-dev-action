@@ -30,6 +30,7 @@ jobs:
           curl
           wget
           git
+          bash
 
     - name: Run script in arm
       run: |
