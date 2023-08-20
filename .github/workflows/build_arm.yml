@@ -72,8 +72,8 @@ jobs:
       shell: alpine.sh {0}
 
     - name: cachix test
-      # env:
-      #   CACHIX_SIGNING_KEY: ${{secrets.CACHIX_SIGNING_KEY}}
+      env:
+        CACHIX_SIGNING_KEY: ${{secrets.CACHIX_SIGNING_KEY}}
       run: |
         export PATH=$PATH:~/.nix-profile/bin
         cachix push jcleng-dev
