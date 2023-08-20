@@ -26,6 +26,10 @@ jobs:
       with:
         arch: aarch64
         branch: v3.15
+        packages: >
+          curl
+          wget
+          git
 
     - name: Run script in arm
       run: |
