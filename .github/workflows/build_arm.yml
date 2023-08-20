@@ -38,6 +38,8 @@ jobs:
       run: |
         mkdir /nix
         chmod 777 /nix
+        uname -a
+        cat /etc/alpine-release
       shell: alpine.sh --root {0}
 
     # - name: Install nix
