@@ -1,11 +1,6 @@
 name: "Build and populate cache"
 on:
   workflow_dispatch:
-    inputs:
-      build:
-        description: 'run actions'
-        required: false
-        default: 'true'
   schedule:
     # rebuild everyday at 2:51
     # TIP: Choose a random time here so not all repositories are build at once:
