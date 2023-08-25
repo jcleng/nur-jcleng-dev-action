@@ -60,7 +60,7 @@ jobs:
     - name: channel update
       run: |
         export PATH=$PATH:~/.nix-profile/bin
-        nix-channel --add https://mirrors.ustc.edu.cn/nix-channels/nixpkgs-unstable nixpkgs
+        nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
         nix-channel --list
         nix-channel --update
       shell: alpine.sh {0}
